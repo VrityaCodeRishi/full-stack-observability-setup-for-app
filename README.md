@@ -36,24 +36,30 @@ Project on Prometheus + Loki + Grafana (PLG) observability lab with a Node.js de
 
 ## Quick Start
 1. **Start the stack**
+
    ```bash
-docker compose up -d --build
+   docker compose up -d --build
    ```
+
    The compose file builds the local images (`demo-orders-api`, `demo-order-exporter`) and pulls `latest` images for the upstream services.
 
 2. **Open the UIs**
+
    - Grafana → http://localhost:3000 (login: `admin` / `grafana_admin`)
    - Prometheus → http://localhost:9090
    - Alertmanager → http://localhost:9093
    - Demo Orders API → http://localhost:8080/orders
 
 3. **Generate traffic**
+
    ```bash
-for i in $(seq 1 200); do curl -s http://localhost:8080/orders > /dev/null; done
+   for i in $(seq 1 200); do curl -s http://localhost:8080/orders > /dev/null; done
    ```
+
    Leave a loop running for 60–90 seconds to build error ratios and trigger alerts.
 
 4. **Explore observability**
+
    - Grafana › Observability › **Demo Orders Service Overview** (metrics)
    - Grafana › Observability › **Demo Orders Service Logs** (Loki log stream)
 
