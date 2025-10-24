@@ -1,0 +1,20 @@
+groups:
+  - name: demo-app-alerts
+    rules:
+      - alert: DemoAppHighErrorRate
+        expr: sum(rate(demo_request_errors_total[2m])) by (service) / sum(rate(demo_request_total[2m])) by (service) >= 0.1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High error rate on {{ $labels.service }}"
+          description: "More than 10% of requests are failing in the last 2 minutes."
+
+      - alert: OrderExporterStaleData
+        expr: time() - demo_order_exporter_last_refresh_seconds > 120
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Order exporter data is stale"
+          description: "Order exporter has not refreshed metrics for {{ $value | humanizeDuration }}."
